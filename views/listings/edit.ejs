@@ -1,0 +1,122 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+            <h3>Edit Your Listing</h3>
+
+            <form
+                method="POST"
+                action="/listings/<%= listing._id %>?_method=PUT"
+                class="needs-validation"
+                novalidate enctype="multipart/form-data">
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input
+                        id="title"
+                        name="listing[title]"
+                        value="<%= listing.title %>"
+                        type="text"
+                        class="form-control"
+                        required>
+
+                    <div class="invalid-feedback">
+                        Title should be valid
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+
+                    <textarea
+                        id="description"
+                        name="listing[description]"
+                        class="form-control"
+                        rows="3"
+                        required><%= listing.description %></textarea>
+
+                    <div class="invalid-feedback">
+                         enter a description.
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+              <div class="mb-3">
+             <label class="form-label">Current Image</label>
+             <div>
+          <img src="<%= originalImageUrl %>">
+          </div>
+    </div>
+
+            <div class="mb-3">
+           <label for="image" class="form-label">Upload New Image</label>
+           <input type="file" name="image" id="image" class="form-control">
+      </div>  
+
+                <!-- Price + Country -->
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label for="price" class="form-label">Price</label>
+
+                        <input
+                            id="price"
+                            name="listing[price]"
+                            value="<%= listing.price %>"
+                            type="number"
+                            class="form-control"
+                            required
+                            min="1">
+
+                        <div class="invalid-feedback">
+                            price should be valid
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label for="country" class="form-label">Country</label>
+
+                        <input
+                            id="country"
+                            name="listing[country]"
+                            value="<%= listing.country %>"
+                            type="text"
+                            class="form-control"
+                            required>
+
+                        <div class="invalid-feedback">
+                            enter country
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Location -->
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+
+                    <input
+                        id="location"
+                        name="listing[location]"
+                        value="<%= listing.location %>"
+                        type="text"
+                        class="form-control"
+                        required>
+
+                    <div class="invalid-feedback">
+                        location should be valid
+                    </div>
+                </div>
+
+                <button class="btn btn-dark edit-btn">
+                    Update Listing
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

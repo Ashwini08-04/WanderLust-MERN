@@ -1,0 +1,110 @@
+<% layout("/layouts/boilerplate") %>
+
+<div id="filters">
+    <a href="/listings" class="filter" <%= !category ? 'active' : '' %>>
+        <i class="fa-solid fa-house"></i>
+        <span>All</span>
+    </a>
+
+    <a href="/listings?category=Trending" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-fire"></i>
+    <span>Trending</span>
+     </a>
+
+<a href="/listings?category=Rooms" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-house"></i>
+    <span>Rooms</span>
+</a>
+
+<a href="/listings?category=City" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-city"></i>
+    <span>City</span>
+</a>
+
+<a href="/listings?category=Nature" class="filter" <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-tree"></i>
+    <span>Nature</span>
+</a>
+
+<a href="/listings?category=Beach" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-umbrella-beach"></i>
+    <span>Beach</span>
+</a>
+
+<a href="/listings?category=Mountains" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-mountain"></i>
+    <span>Mountains</span>
+</a>
+
+<a href="/listings?category=Camping" class="filter" <%= category === 'Nature' ? 'active' : '' %> >
+    <i class="fa-solid fa-campground"></i>
+    <span>Camping</span>
+</a>
+
+<a href="/listings?category=Popular" class="filter"  <%= category === 'Nature' ? 'active' : '' %>>
+    <i class="fa-solid fa-star"></i>
+    <span>Popular</span>
+</a>
+
+<div class="tax-toggle">
+    <div class="form-check form-switch form-check-reverse">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">
+            Display total after taxes
+        </label>
+    </div>
+</div>
+
+</div>
+<% if (allListings.length === 0) { %>
+
+    <div class="text-center mt-5">
+        <h4>No listings found</h4>
+        <p class="text-muted">Try searching for another destination.</p>
+    </div>
+
+<% } 
+else { %>
+<div class="row">
+    <% for(let listing of allListings){ %>
+        <div class="col-12 col-md-6 col-lg-4 mb-4 mt-3">
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+                <div class="card listing-card h-100">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= listing.title %></h5>
+                        <p class="card-text">
+                         ₹ <span class="listing-price" data-price="<%= listing.price %>">
+                        <%= listing.price.toLocaleString("en-IN") %>
+                        </span>
+                        <span class="tax-text"></span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    <% } %>
+</div>
+<% } %>
+
+<script>
+    const taxSwitch = document.getElementById("switchCheckDefault");
+    const prices = document.querySelectorAll(".listing-price");
+
+    taxSwitch.addEventListener("change", () => {
+        prices.forEach(price => {
+            const originalPrice = Number(price.dataset.price);
+            const taxText = price.parentElement.querySelector(".tax-text");
+
+            if (taxSwitch.checked) {
+                const totalPrice = originalPrice * 1.10;
+
+                price.innerText = totalPrice.toLocaleString("en-IN");
+                taxText.innerText = " + 10% taxes";
+            } else {
+                price.innerText = originalPrice.toLocaleString("en-IN");
+                taxText.innerText = "";
+            }
+        });
+    });
+</script>
